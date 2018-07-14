@@ -74,7 +74,7 @@
 
                     <div class="product_details_title">
                         <span>Quantity:</span>
-                        <input type="number" class="quantity" id="quantity" name="quantity" value=""
+                        <input type="number" class="quantity" id="quantity" name="quantity" value="1"
                                style="width: 50px; margin-right: 10px;">
 
                     </div>

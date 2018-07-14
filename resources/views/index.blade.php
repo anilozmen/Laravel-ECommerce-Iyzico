@@ -51,8 +51,8 @@
                          data-isotope='{ "itemSelector": ".product-item", "layoutMode": "fitRows" }'>
 
                         @foreach($products as $product)
-
-                            <div class="product-item {{$product->category_id}} ">
+                            <a href="/product/{{$product->slug}}">
+                                <div class="product-item {{$product->category_id}} ">
                                 <div class="product discount product_filter">
                                     <div class="product_image">
                                         {!! $product->thumbs !!}
@@ -66,7 +66,7 @@
                                         <div class="product_price">{{ number_format($product->product_price) }} ₺<span>{{ number_format($product->original_price ) }}
                                                 ₺</span></div>
 
-                                        <input type="number" class="quantity" id="quantity" name="quantity" value=""
+                                        <input type="number" class="quantity" id="quantity" name="quantity" value="1"
                                                style="width: 50px; margin-right: 10px;">
                                     </div>
                                 </div>
@@ -74,6 +74,7 @@
                                             href="{{ route('basket.create', ['id' => $product->id]) }}">add to cart</a>
                                 </div>
                             </div>
+                            </a>
                         @endforeach
 
                     </div>

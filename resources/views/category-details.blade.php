@@ -40,8 +40,8 @@
 
 
                                     @foreach($products as $product)
-
-                                        <div class="product-item {{$product->id}} ">
+                                        <a href="/product/{{$product->slug}}">
+                                            <div class="product-item {{$product->id}} ">
                                             <div class="product discount product_filter">
                                                 <div class="product_image">
                                                     {!! $product->thumbs !!}
@@ -55,11 +55,12 @@
                                                     <div class="product_price">{{ number_format($product->product_price) }} ₺<span>{{ number_format($product->original_price ) }}
                                                             ₺</span></div>
 
-                                                    <input type="number" class="quantity" id="quantity" name="quantity" value="" style="width: 50px; margin-right: 10px;">
+                                                    <input type="number" class="quantity" id="quantity" name="quantity" value="1" style="width: 50px; margin-right: 10px;">
                                                 </div>
                                             </div>
                                             <div class="add_to_cart_button red_button" style="margin-top: 40px;"><a href="{{ route('basket.create', ['id' => $product->id]) }}">add to cart</a></div>
                                         </div>
+                                        </a>
                                     @endforeach
 
                                 </div>
