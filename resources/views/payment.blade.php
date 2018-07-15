@@ -39,7 +39,7 @@
                                         <div class="form-group">
                                             <label for="surname">Surname</label>
                                             <input type="text" class="form-control" name="surname" id="surname"
-                                                   value="{!! auth()->user()->surname !!}" required>
+                                                   value="{{ auth()->user()->surname }}" required>
                                         </div>
                                     </div>
                                 </div>
@@ -89,7 +89,7 @@
                                         <div class="form-group">
                                             <label for="address">Address</label>
                                             <input type="text" class="form-control" name="address" id="address"
-                                                   value="{!! $user_detail->address !!}" required>
+                                                   value="{{ $user_detail->address }}" required>
                                         </div>
                                     </div>
                                 </div>
