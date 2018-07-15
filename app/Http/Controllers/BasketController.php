@@ -7,6 +7,7 @@ use App\BasketProduct;
 use App\Category;
 use App\Product;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 
 class BasketController extends Controller
@@ -35,9 +36,11 @@ class BasketController extends Controller
 
 
         $quantity = request('quantity');
+        if ($quantity<1){
+          abort(400);
+        }
         $product = Product::find(request('id'));
         $cartItem = Cart::add($product->id, $product->product_name, $quantity, $product->product_price, ['slug' => $product->slug]);
-
 
         if (auth()->check()) {
             $active_basket_id = session('active_basket_id');
