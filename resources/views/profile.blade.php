@@ -22,7 +22,7 @@
                         <tr>
                             <td>{{ $userDetail->user->name }} {{ $userDetail->user->surname }}</td>
                             <td>{{ $userDetail->user->email }}</td>
-                            <td>{!! $userDetail->address !!} </td>
+                            <td>{{ $userDetail->address }} </td>
                             <td>{{ $userDetail->phone }}</td>
                             <td>{{ $userDetail->m_phone }}</td>
                             <td>{{ $userDetail->city }}</td>
@@ -42,5 +42,3 @@
         </div>
     </div>
 @endsection
-
-
