@@ -18,8 +18,7 @@ class UserDetailController extends Controller
     {
         //
         $categoriesss = Category::orderBy('category_name','asc')->get();
-        $user = auth()->user()->id;
-        $userDetails = UserDetail::where('user_id',$user)->get();
+        $userDetails = UserDetail::where('user_id',auth()->user()->id)->get();
         return view('profile',compact('userDetails','categoriesss'));
     }
 
@@ -34,7 +33,7 @@ class UserDetailController extends Controller
     {
         //
         $categoriesss = Category::orderBy('category_name','asc')->get();
-        $userDetails = UserDetail::find($id);
+        $userDetails = UserDetail::find(auth()->user()->id);
         return view('profile-edit',compact('userDetails','categoriesss'));
     }
 

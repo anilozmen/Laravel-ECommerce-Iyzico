@@ -47,5 +47,4 @@ Route::post('/successful', 'PaymentController@pay')->name('pay');
 Route::get('/orders', 'OrderController@index')->name('orders');
 Route::get('/orders/{id}', 'OrderController@detail')->name('order');
 
-Route::resource('profile', 'UserDetailController');
-
+Route::resource('profile', 'UserDetailController')->middleware('auth');
