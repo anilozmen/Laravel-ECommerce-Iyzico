@@ -58,7 +58,7 @@ class UserDetailController extends Controller
 
             ]);
         $input = $request->only('phone','m_phone','address','city','country','zipcode');
-        $userDetail = UserDetail::find($id);
+        $userDetail = UserDetail::find(auth()->user()->id);
         $userDetail->update($input);
 
         Session::flash("status", 1);
