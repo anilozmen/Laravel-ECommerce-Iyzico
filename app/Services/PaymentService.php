@@ -55,9 +55,9 @@ class PaymentService extends IyzipayBootstrap
     private function IyzicoOptions()
     {
         $this->IOptions = new Options();
-        $this->IOptions->setApiKey("sandbox-KoZanFuXKRQQTXCKx1XyxAK7efpsweQl");
-        $this->IOptions->setSecretKey("sandbox-M1jwYRvORJQAqRh0GhSgVw63KAAmfDBO");
-        $this->IOptions->setBaseUrl("https://sandbox-api.iyzipay.com");
+        $this->IOptions->setApiKey("SET-API-KEY");
+        $this->IOptions->setSecretKey("SET-SECRET-KEY");
+        $this->IOptions->setBaseUrl("SET-BASE-URL");
     }
 
 
