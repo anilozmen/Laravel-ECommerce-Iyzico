@@ -35,7 +35,7 @@ class OrderController extends Controller
     public function detail($id)
     {
         $categoryMenu = Category::orderBy('category_name','asc')->get();
-        $order = Order::with('baskets.basket_products.product')->where('orders.user_id', Auth::id())->firstOrFail();
+        $order = Order::with('baskets.basket_products.product')->where('orders.id', $id)->firstOrFail();
         return view('order-detail', compact('order','categoryMenu'));
     }
 }
