@@ -24,6 +24,6 @@ class isThisAdmin
             }
         }
 
-        return redirect("/login");
+        return redirect()->route('login');
     }
 }

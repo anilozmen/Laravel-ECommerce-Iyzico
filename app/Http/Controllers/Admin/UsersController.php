@@ -18,9 +18,9 @@ class UsersController extends Controller
     public function index()
     {
         //
-        $categoriesss = Category::orderBy('category_name','asc')->get();
+        $categoryMenu = Category::orderBy('category_name','asc')->get();
         $users = User::orderBy('id','desc')->paginate(5);
-        return view('admin.users', compact('users','categoriesss'));
+        return view('admin.users', compact('users','categoryMenu'));
     }
 
     /**
@@ -89,6 +89,6 @@ class UsersController extends Controller
         //
         User::destroy($id);
         Session::flash("status", 1);
-        return redirect("/admin-users");
+        return redirect()->route('admin-users.index');
     }
 }

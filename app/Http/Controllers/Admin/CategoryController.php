@@ -7,6 +7,7 @@ use App\Images;
 use App\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 
 class CategoryController extends Controller
@@ -19,9 +20,9 @@ class CategoryController extends Controller
     public function index()
     {
         //
-        $categoriesss = Category::orderBy('category_name', 'asc')->get();
+        $categoryMenu = Category::orderBy('category_name', 'asc')->get();
         $categories = Category::orderBy('id', 'desc')->paginate(5);
-        return view('admin.category', compact('categories', 'categoriesss'));
+        return view('admin.category', compact('categories', 'categoryMenu'));
     }
 
     /**
@@ -32,9 +33,9 @@ class CategoryController extends Controller
     public function create()
     {
         //
-        $categoriesss = Category::orderBy('category_name', 'asc')->get();
+        $categoryMenu = Category::orderBy('category_name', 'asc')->get();
         $categories = Category::pluck('category_name', 'id')->all();
-        return view("admin.category-create", compact('categories', 'categoriesss'));
+        return view("admin.category-create", compact('categories', 'categoryMenu'));
     }
 
     /**
@@ -50,11 +51,11 @@ class CategoryController extends Controller
             "category_name" => "required|max:255"
         ]);
 
-        $categories = Category::create($request->all());
-
+        $data = ['category_name' => $request->category_name];
+        Category::create($data);
         Session::flash("status", 1);
-        return redirect("/admin-category");
 
+        return redirect()->route('admin-category.index');
     }
 
     /**
@@ -77,10 +78,10 @@ class CategoryController extends Controller
     public function edit($id)
     {
         //
-        $categoriesss = Category::orderBy('category_name', 'asc')->get();
+        $categoryMenu = Category::orderBy('category_name', 'asc')->get();
         $category = Category::find($id);
         $categories = Category::pluck('category_name', 'id')->all();
-        return view("admin.category-edit", compact('category', 'categories', 'categoriesss'));
+        return view("admin.category-edit", compact('category', 'categories', 'categoryMenu'));
     }
 
     /**
@@ -97,12 +98,14 @@ class CategoryController extends Controller
             [
                 "category_name" => "required|max:255"
             ]);
-        $input = $request->all();
+
         $category = Category::find($id);
-        $category->update($input);
+
+        $data = ['category_name' => $request->category_name];
+        $category->update($data);
 
         Session::flash("status", 1);
-        return redirect("/admin-category");
+        return redirect()->route('admin-category.index');
     }
 
     /**
@@ -117,23 +120,19 @@ class CategoryController extends Controller
 
         $products = Product::where('category_id', $id)->get();
 
-        if ($products) {
-            foreach ($products as $product) {
-                foreach ($product->images as $image) {
-                    unlink(public_path("uploads/" . $image->name));
-                    unlink(public_path("uploads/thumb_" . $image->name));
-                }
+        foreach ($products as $product) {
+            foreach ($product->images as $image) {
+                unlink(public_path("uploads/" . $image->name));
+                unlink(public_path("uploads/thumb_" . $image->name));
             }
-            foreach ($products as $product){
-                Images::where("imageable_id", $product->id)->where("imageable_type", "App\Product")->delete();
-            }
+            Images::where("imageable_id", $product->id)->where("imageable_type", "App\Product")->delete();
         }
 
-        $kategori = Category::find($id);
-        $kategori->allProducts()->detach();
-        $kategori->delete();
+        $category = Category::find($id);
+        $category->allProducts()->detach();
+        $category->delete();
 
         Session::flash("status", 1);
-        return redirect("/admin-category");
+        return redirect()->route('admin-category.index');
     }
 }

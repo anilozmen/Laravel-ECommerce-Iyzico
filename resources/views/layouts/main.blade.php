@@ -118,8 +118,8 @@
                             <ul class="navbar_menu">
                                 <li><a href="/">HOMEPAGE</a></li>
 
-                                @foreach($categoriesss as $category)
-                                    <li><a href="/category/{{ $category->slug }}">{{ $category->category_name }}</a>
+                                @foreach($categoryMenu as $menu)
+                                    <li><a href="/category/{{ $menu->slug }}">{{ $menu->category_name }}</a>
                                     </li>
                                 @endforeach
 
@@ -152,8 +152,8 @@
         <div class="hamburger_menu_content text-right">
             <ul class="menu_top_nav">
                 <li class="menu_item"><a href="{{ route('home') }}">HOMEPAGE</a></li>
-                @foreach($categoriesss as $category)
-                    <li class="menu_item"><a href="/category/{{ $category->slug }}">{{ $category->category_name }}</a>
+                @foreach($categoryMenu as $menu)
+                    <li class="menu_item"><a href="/category/{{ $menu->slug }}">{{ $menu->category_name }}</a>
                     </li>
                 @endforeach
                 <li class="menu_item"><a href="{{ route('contact') }}">CONTACT</a></li>

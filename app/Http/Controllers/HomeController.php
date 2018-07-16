@@ -14,27 +14,27 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $categoriesss = Category::orderBy('category_name','asc')->get();
+        $categoryMenu = Category::orderBy('category_name','asc')->get();
         $products = Product::orderBy('id','desc')->get();
-        return view('index', compact( 'products','categoriesss'));
+        return view('index', compact( 'products','categoryMenu'));
     }
 
     public function category($slug){
-        $categoriesss = Category::orderBy('category_name','asc')->get();
+        $categoryMenu = Category::orderBy('category_name','asc')->get();
         $category = Category::where("slug",$slug)->first();
         $products = Product::with('categories')->where('category_id',$category->id)->get();
-        return view('category-details', compact('category','products','categoriesss'));
+        return view('category-details', compact('category','products','categoryMenu'));
     }
 
     public function product($slug){
-        $categoriesss = Category::orderBy('category_name','asc')->get();
+        $categoryMenu = Category::orderBy('category_name','asc')->get();
         $product = Product::where("slug",$slug)->first();
         $bcrumb = $product->categories()->distinct()->get();
-        return view('product-detail', compact('product','bcrumb','categoriesss'));
+        return view('product-detail', compact('product','bcrumb','categoryMenu'));
     }
 
     public function contact(){
-        $categoriesss = Category::orderBy('category_name','asc')->get();
-        return view('contact', compact('categoriesss'));
+        $categoryMenu = Category::orderBy('category_name','asc')->get();
+        return view('contact', compact('categoryMenu'));
     }
 }

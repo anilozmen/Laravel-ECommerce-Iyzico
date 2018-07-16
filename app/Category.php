@@ -21,11 +21,6 @@ class Category extends Model
         ];
     }
 
-    public function products()
-    {
-        return $this->belongsTo('App\Product', 'category_id','id');
-    }
-
     public function allProducts()
     {
         return $this->belongsToMany('App\Product','products','category_id');

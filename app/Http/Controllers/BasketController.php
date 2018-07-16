@@ -7,7 +7,7 @@ use App\BasketProduct;
 use App\Category;
 use App\Product;
 use Gloudemans\Shoppingcart\Facades\Cart;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class BasketController extends Controller
@@ -20,9 +20,9 @@ class BasketController extends Controller
     public function index()
     {
         //
-        $categoriesss = Category::orderBy('category_name','asc')->get();
+        $categoryMenu = Category::orderBy('category_name','asc')->get();
         $categories = Category::orderBy('category_name','asc')->get();
-        return view('basket', compact('categories','categoriesss'));
+        return view('basket', compact('categories','categoryMenu'));
     }
 
     /**
@@ -42,11 +42,11 @@ class BasketController extends Controller
         $product = Product::find(request('id'));
         $cartItem = Cart::add($product->id, $product->product_name, $quantity, $product->product_price, ['slug' => $product->slug]);
 
-        if (auth()->check()) {
+        if (Auth::check()) {
             $active_basket_id = session('active_basket_id');
             if (!isset($active_basket_id)) {
                 $active_basket = Basket::create([
-                    'user_id' => auth()->id()
+                    'user_id' => Auth::id()
                 ]);
                 $active_basket_id = $active_basket->id;
                 session()->put('active_basket_id', $active_basket_id);
@@ -106,7 +106,7 @@ class BasketController extends Controller
     public function update($rowid)
     {
         //
-        if (auth()->check()) {
+        if (Auth::check()) {
             $active_basket_id = session('active_basket_id');
             $cartItem = Cart::get($rowid);
 
@@ -134,13 +134,13 @@ class BasketController extends Controller
     public function destroy()
     {
         //
-        if (auth()->check()) {
+        if (Auth::check()) {
             $active_basket_id = session('active_basket_id');
             BasketProduct::where('basket_id', $active_basket_id)->delete();
         }
 
         Cart::destroy();
 
-        return redirect("/basket");
+        return redirect()->route('basket');
     }
 }

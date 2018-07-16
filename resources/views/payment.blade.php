@@ -5,7 +5,7 @@
     <div class="container-fluid no-padding checkout-content" style="margin-top: 40px">
         <!-- Container -->
         <div class="container">
-            @if(!auth()->user()->detail->address)
+            @if(!Auth::user()->detail->address)
                 <div class="alert alert-danger">
                     Please <strong>Complete</strong> Your Profile!
                     <br><a href="/profile/{{auth()->user()->id}}/edit">Edit Profile</a>
@@ -32,14 +32,14 @@
                                         <div class="form-group">
                                             <label for="name">Name</label>
                                             <input type="text" class="form-control" name="name" id="name"
-                                                   value="{{auth()->user()->name}}" required>
+                                                   value="{{Auth::user()->name}}" required>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="surname">Surname</label>
                                             <input type="text" class="form-control" name="surname" id="surname"
-                                                   value="{{ auth()->user()->surname }}" required>
+                                                   value="{{Auth::user()->surname}}" required>
                                         </div>
                                     </div>
                                 </div>

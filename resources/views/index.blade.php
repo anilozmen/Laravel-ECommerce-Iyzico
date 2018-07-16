@@ -37,9 +37,9 @@
                             <li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center active is-checked"
                                 data-filter="*">all
                             </li>
-                            @foreach($categoriesss as $category)
+                            @foreach($categoryMenu as $menu)
                                 <li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center"
-                                    data-filter=".{{ $category->id }}">{{ $category->category_name }}</li>
+                                    data-filter=".{{ $menu->id }}">{{ $menu->category_name }}</li>
                             @endforeach
                         </ul>
                     </div>

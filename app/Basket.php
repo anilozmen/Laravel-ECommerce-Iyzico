@@ -25,14 +25,13 @@ class Basket extends Model
 
     public static function active_basket_id()
     {
-        $active_basket = DB::table('baskets as s')
-            ->leftJoin('orders as si', 'si.basket_id', '=', 's.id')
-            ->where('s.user_id', auth()->id())
-            ->whereRaw('si.id is null')
-            ->orderByDesc('s.created_at')
-            ->select('s.id')
+        $active_basket = DB::table('baskets as b')
+            ->leftJoin('orders as o', 'o.basket_id', 'b.id')
+            ->where('b.user_id', Auth::id())
+            ->whereNull('o.id')
+            ->orderByDesc('b.created_at')
+            ->select('b.id')
             ->first();
-
         if (!is_null($active_basket)) return $active_basket->id;
     }
 

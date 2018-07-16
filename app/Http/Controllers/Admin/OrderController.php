@@ -6,6 +6,7 @@ use App\Category;
 use App\Order;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
 
 class OrderController extends Controller
 {
@@ -17,9 +18,9 @@ class OrderController extends Controller
     public function index()
     {
         //
-        $categoriesss = Category::orderBy('category_name','asc')->get();
+        $categoryMenu = Category::orderBy('category_name','asc')->get();
         $orders = Order::with('baskets')->orderByDesc('id')->paginate(8);
-        return view('admin.orders',compact('orders','categoriesss'));
+        return view('admin.orders',compact('orders','categoryMenu'));
     }
 
     /**
@@ -69,14 +70,14 @@ class OrderController extends Controller
           "Order Complete" => "Order Complete"
         ];
         $orders = Order::find($id);
-        $categoriesss = Category::orderBy('category_name','asc')->get();
-        return view('admin.orders-edit', compact('orders','status','categoriesss'));
+        $categoryMenu = Category::orderBy('category_name','asc')->get();
+        return view('admin.orders-edit', compact('orders','status','categoryMenu'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request  $request0
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -84,11 +85,12 @@ class OrderController extends Controller
     {
         //
 
-        $input = $request->all();
+        $data = ['status' => $request->status];
         $orders = Order::find($id);
-        $orders->update($input);
+        $orders->update($data);
 
-        return redirect("/admin-orders");
+        Session::flash("status", 1);
+        return redirect()->route('admin-orders.index');
     }
 
     /**
@@ -101,6 +103,6 @@ class OrderController extends Controller
     {
         //
         $orders = Order::destroy($id);
-        return redirect("/admin-orders");
+        return redirect()->route('admin-orders.index');
     }
 }

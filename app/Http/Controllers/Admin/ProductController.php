@@ -20,9 +20,9 @@ class ProductController extends Controller
     public function index()
     {
         //
-        $categoriesss = Category::orderBy('category_name', 'asc')->get();
+        $categoryMenu = Category::orderBy('category_name', 'asc')->get();
         $products = Product::orderBy('id', 'desc')->paginate(5);
-        return view('admin.products', compact('products', 'categoriesss'));
+        return view('admin.products', compact('products', 'categoryMenu'));
     }
 
     /**
@@ -33,10 +33,10 @@ class ProductController extends Controller
     public function create()
     {
         //
-        $categoriesss = Category::orderBy('category_name', 'asc')->get();
+        $categoryMenu = Category::orderBy('category_name', 'asc')->get();
         $categoriess = Category::pluck("category_name", "id")->all();
         $products = Product::pluck("product_name", "id")->all();
-        return view("admin.products-create", compact('products', 'categoriess', 'categoriesss'));
+        return view("admin.products-create", compact('products', 'categoriess', 'categoryMenu'));
     }
 
     /**
@@ -57,6 +57,7 @@ class ProductController extends Controller
                 "product_price" => "required|numeric",
                 "img" => "required"
             ]);
+
 
         $input = $request->only('category_id', 'product_name', 'product_detail', 'original_price', 'product_price');
 
@@ -85,7 +86,7 @@ class ProductController extends Controller
             }
         }
         Session::flash("status", 1);
-        return redirect("/admin-products");
+        return redirect()->route('admin-products.index');
     }
 
     /**
@@ -108,10 +109,10 @@ class ProductController extends Controller
     public function edit($id)
     {
         //
-        $categoriesss = Category::orderBy('category_name', 'asc')->get();
+        $categoryMenu = Category::orderBy('category_name', 'asc')->get();
         $categoriess = Category::pluck("category_name", "id")->all();
         $products = Product::find($id);
-        return view("admin.products-edit", compact('categoriess', 'products', 'categoriesss'));
+        return view("admin.products-edit", compact('categoriess', 'products', 'categoryMenu'));
     }
 
     /**
@@ -154,7 +155,7 @@ class ProductController extends Controller
         }
 
         Session::flash("status", 1);
-        return redirect("/admin-products");
+        return redirect()->route('admin-products.index');
     }
 
     /**
@@ -178,7 +179,7 @@ class ProductController extends Controller
 
         Session::flash("status", 1);
 
-        return redirect("/admin-products");
+        return redirect()->route('admin-products.index');
 
 
     }

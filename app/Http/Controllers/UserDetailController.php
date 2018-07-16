@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\UserDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class UserDetailController extends Controller
@@ -17,9 +18,9 @@ class UserDetailController extends Controller
     public function index()
     {
         //
-        $categoriesss = Category::orderBy('category_name','asc')->get();
-        $userDetails = UserDetail::where('user_id',auth()->user()->id)->get();
-        return view('profile',compact('userDetails','categoriesss'));
+        $categoryMenu = Category::orderBy('category_name','asc')->get();
+        $userDetails = UserDetail::where('user_id',Auth::id())->get();
+        return view('profile',compact('userDetails','categoryMenu'));
     }
 
 
@@ -29,12 +30,12 @@ class UserDetailController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit()
     {
         //
-        $categoriesss = Category::orderBy('category_name','asc')->get();
-        $userDetails = UserDetail::find(auth()->user()->id);
-        return view('profile-edit',compact('userDetails','categoriesss'));
+        $categoryMenu = Category::orderBy('category_name','asc')->get();
+        $userDetails = UserDetail::find(Auth::id());
+        return view('profile-edit',compact('userDetails','categoryMenu'));
     }
 
     /**
@@ -44,13 +45,13 @@ class UserDetailController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
         $this->validate($request,
             [
-                "phone" => "required|numeric|unique:user_details",
-                "m_phone" => "required|numeric|unique:user_details",
+                "phone" => "required|numeric",
+                "m_phone" => "required|numeric",
                 "address" => "required",
                 "city" => "required",
                 "country" => "required",
@@ -58,11 +59,11 @@ class UserDetailController extends Controller
 
             ]);
         $input = $request->only('phone','m_phone','address','city','country','zipcode');
-        $userDetail = UserDetail::find(auth()->user()->id);
+        $userDetail = UserDetail::find(Auth::id());
         $userDetail->update($input);
 
         Session::flash("status", 1);
-        return redirect("/profile");
+        return redirect()->route('profile.index');
     }
 
     /**

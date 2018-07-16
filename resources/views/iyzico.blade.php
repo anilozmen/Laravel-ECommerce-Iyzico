@@ -9,16 +9,16 @@ $options->setSecretKey("SET-SECRET-KEY");
 $options->setBaseUrl("SET-BASE-URL");
 
 
-$user_id = auth()->user()->id;
-$user_name=auth()->user()->name;
-$user_surname=auth()->user()->surname;
-$user_phone = auth()->user()->detail->phone;
-$user_email = auth()->user()->email;
+$user_id = Auth::id();
+$user_name=Auth::user()->name;
+$user_surname=Auth::user()->surname;
+$user_phone = Auth::user()->detail->phone;
+$user_email = Auth::user()->email;
 $user_createdat = date("Y-m-d H:i:s");
-$user_address = auth()->user()->detail->address;
-$user_city = auth()->user()->detail->city;
-$user_country = auth()->user()->detail->country;
-$user_zipcode= auth()->user()->detail->zipcode;
+$user_address = Auth::user()->detail->address;
+$user_city = Auth::user()->detail->city;
+$user_country = Auth::user()->detail->country;
+$user_zipcode= Auth::user()->detail->zipcode;
 @$order_price = $order;
 
 
