@@ -26,7 +26,7 @@ class Basket extends Model
     public static function active_basket_id()
     {
         $active_basket = DB::table('baskets as b')
-            ->leftJoin('orders as o', 'o.basket_id', 'b.id')
+            ->leftJoin('orders as o', 'o.basket_id','=', 'b.id')
             ->where('b.user_id', Auth::id())
             ->whereNull('o.id')
             ->orderByDesc('b.created_at')
