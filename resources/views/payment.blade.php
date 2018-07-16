@@ -112,7 +112,7 @@
                         <div class="container-">
                             <div class="row">
                                 <div class="col-md-12">
-                                    @include('iyzico')
+                                    {!! $getFormContent !!}
 
                                     <div id="iyzipay-checkout-form" class="responsive"></div>
                                 </div>

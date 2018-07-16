@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Services\PaymentService;
 use App\Order;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Auth;
@@ -34,12 +35,32 @@ class PaymentController extends Controller
         $order        = Cart::total();
         $random       = rand(1, 10000);
 
-        $data["user_detail"]   = $user_detail;
-        $data["user"]          = $user;
-        $data["order"]         = $order;
-        $data["categoryMenu"]  = $categoryMenu;
+        $data["user_detail"]  = $user_detail;
+        $data["user"]         = $user;
+        $data["order"]        = $order;
+        $data["categoryMenu"] = $categoryMenu;
 
         session()->put('order_no', $random);
+
+
+        $service = new PaymentService();
+        $form                   = [];
+        $form['sessionOrderNo'] = session('order_no');
+        $form['orderPrice']     = $order;
+        $form['basketID']       = session('active_basket_id');
+        $form['route']          = 'pay';
+        $form['userID']         = Auth::id();
+        $form['name']           = Auth::user()->name;
+        $form['surname']        = Auth::user()->surname;
+        $form['phone']          = Auth::user()->detail->phone;
+        $form['email']          = Auth::user()->email;
+        $form['city']           = Auth::user()->detail->city;
+        $form['country']        = Auth::user()->detail->country;
+        $form['zipcode']        = Auth::user()->detail->zipcode;
+        $form['address']        = Auth::user()->detail->address;
+
+        $data['getFormContent'] = $service->IyzicoForm($form);
+        $service->IyzicoForm($form);
 
         return view('payment')->with($data);
     }
@@ -47,18 +68,11 @@ class PaymentController extends Controller
     public function pay()
     {
 
-        require (base_path('vendor/iyzico/iyzipay-php/IyzipayBootstrap.php'));
-        \IyzipayBootstrap::init();
-        $options = new \Iyzipay\Options();
-        $options->setApiKey("SET-API-KEY");
-        $options->setSecretKey("SET-SECRET-KEY");
-        $options->setBaseUrl("SET-BASE-URL");
-        $token = session('_token');
-        $iyzico_request = new \Iyzipay\Request\RetrieveCheckoutFormRequest();
-        $iyzico_request->setLocale(\Iyzipay\Model\Locale::TR);
-        $iyzico_request->setConversationId(session('order_no'));
-        $iyzico_request->setToken($token);
-        $checkoutForm = \Iyzipay\Model\CheckoutForm::retrieve($iyzico_request, $options);
+        $token   = session('_token');
+        $orderNo = session('order_no');
+
+        $pay = new PaymentService();
+        $pay->IyzicoRequest($orderNo, $token);
 
         $order                   = [];
         $order['name']           = Auth::user()->name.' '.Auth::user()->surname;
@@ -66,6 +80,7 @@ class PaymentController extends Controller
         $order['phone']          = Auth::user()->detail->phone;
         $order['m_phone']        = Auth::user()->detail->m_phone;
         $order['basket_id']      = session('active_basket_id');
+        $order['user_id']        = Auth::id();
         $order['installments']   = 1;
         $order['status']         = "Your order has been received";
         $order['payment_method'] = "Credit Cart";
