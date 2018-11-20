@@ -22,9 +22,7 @@ Iyzico intigrated e-Commerce system that could be developed easily in simple lev
 6. `php artisan db:seed` method to run other seed classes.
 
 ### Iyzico Settings
-1. Enter your `setApiKey(), setSecretKey(), setBaseUrl()` information in `views/iyzico.blade.php` . 
-2. Enter your `setApiKey(), setSecretKey(), setBaseUrl()` information in `Controllers/PaymentController` . 
-
+1. Enter your `setApiKey(), setSecretKey(), setBaseUrl()` information in `App/Services/PaymentService` . 
 
 ### Features
 
